@@ -1,0 +1,33 @@
+nameReference:
+  - kind: Secret
+    version: v1
+    fieldSpecs:
+      - path: spec/template/metadata/name
+        kind: SealedSecret
+        group: bitnami.com
+  - kind: Secret
+    version: v1
+    fieldSpecs:
+      - path: metadata/annotations/secret.reloader.stakater.com\/reload
+        kind: Deployment
+        version: v1
+  - kind: ConfigMap
+    version: v1
+    fieldSpecs:
+      - path: metadata/annotations/configmap.reloader.stakater.com\/reload
+        kind: Deployment
+        version: v1
+  - kind: Service
+    version: v1
+    fieldSpecs:
+    - path: spec/rules/http/paths/backend/service/name
+      kind: Ingress
+    - path: spec/http/route/destination/host
+      kind: VirtualService
+      group: networking.istio.io
+  - kind: Gateway
+    group: networking.istio.io
+    fieldSpecs:
+    - path: spec/gateways
+      kind: VirtualService
+      group: networking.istio.io

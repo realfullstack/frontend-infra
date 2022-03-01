@@ -1,0 +1,86 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+    configmap.reloader.stakater.com/reload: "frontend"
+    secret.reloader.stakater.com/reload: "frontend"
+    argocd.argoproj.io/sync-wave: "3"
+  labels:
+    app-service: nextjs
+  name: frontend-nextjs
+spec:
+  replicas: 1
+  revisionHistoryLimit: 5
+  selector:
+    matchLabels:
+      app-service: frontend-nextjs
+  template:
+    metadata:
+      labels:
+        sidecar.istio.io/force-inject: "true"
+        app-service: frontend-nextjs
+    spec:
+      containers:
+        - image: frontend_main
+          imagePullPolicy: IfNotPresent
+          name: frontend-nextjs
+          envFrom:
+            - secretRef:
+                name: frontend
+            - configMapRef:
+                name: frontend
+          ports:
+            - name: http
+              containerPort: 8000
+          resources:
+            requests:
+              memory: "1Gi"
+              cpu: "500m"
+            limits:
+              memory: "2Gi"
+              cpu: "4"
+          command:
+            - npm
+            - run
+            - start
+      terminationGracePeriodSeconds: 60
+      imagePullSecrets:
+        - name: regcred
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: frontend-nginx
+  labels:
+    app-service: nginx
+  annotations:
+    argocd.argoproj.io/sync-wave: "3"
+spec:
+  replicas: 1
+  revisionHistoryLimit: 5
+  selector:
+    matchLabels:
+      app-service: frontend-nginx
+  template:
+    metadata:
+      labels:
+        sidecar.istio.io/force-inject: "true"
+        app-service: frontend-nginx
+    spec:
+      containers:
+        - image: frontend_nginx
+          imagePullPolicy: IfNotPresent
+          name: frontend-nginx
+          ports:
+            - name: http
+              containerPort: 80
+          resources:
+            requests:
+              memory: "500Mi"
+              cpu: "100m"
+            limits:
+              memory: "1Gi"
+              cpu: "500m"
+      terminationGracePeriodSeconds: 10
+      imagePullSecrets:
+        - name: regcred

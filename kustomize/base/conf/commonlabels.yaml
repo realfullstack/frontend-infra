@@ -1,0 +1,5 @@
+commonLabels:
+- path: spec/template/metadata/labels
+  create: true
+  group: bitnami.com
+  kind: SealedSecret
