@@ -19,9 +19,9 @@ patches:
 images:
 - name: frontend_main
   newName: ghcr.io/realfullstack/frontend/main_dev
-  newTag: sha-6018994
+  newTag: sha-f42edfd
 - name: frontend_nginx
   newName: ghcr.io/realfullstack/frontend/nginx
-  newTag: sha-6018994
+  newTag: sha-f42edfd
 resources:
-  - ../../base
+- ../../base
