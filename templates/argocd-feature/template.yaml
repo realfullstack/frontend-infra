@@ -1,0 +1,19 @@
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: frontend-$FEATURE_BRANCH_CODE
+  namespace: argocd
+spec:
+  destination:
+    namespace: realfullstack-feature
+    server: 'https://kubernetes.default.svc'
+  project: realfullstack
+  source:
+    path: kustomize-feature/overlays/$FEATURE_BRANCH_CODE
+    repoURL: "https://github.com/realfullstack/frontend-infra.git"
+    targetRevision: HEAD
+  syncPolicy:
+    automated:
+      prune: true
+      allowEmpty: true

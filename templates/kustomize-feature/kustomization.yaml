@@ -1,0 +1,44 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+namespace: realfullstack-feature
+nameSuffix: -$FEATURE_BRANCH_CODE
+commonLabels:
+  app-env: feature
+  app.kubernetes.io/instance: authenticator-$FEATURE_BRANCH_CODE
+configMapGenerator:
+- behavior: merge
+  envs:
+  - files/config.env
+  name: authenticator
+patches:
+- path: patches/sealed-secret.yaml
+  target:
+    group: bitnami.com
+    kind: SealedSecret
+    name: authenticator
+    version: v1alpha1
+- patch: |-
+    - op: replace
+      path: /spec/tls/0/hosts
+      value:
+        - $FEATURE_BRANCH_CODE.feature.realfullstack.com
+    - op: replace
+      path: /spec/tls/0/secretName
+      value: authenticator-nginx-tls-key-$FEATURE_BRANCH_CODE
+    - op: replace
+      path: /spec/rules/0/host
+      value: $FEATURE_BRANCH_CODE.feature.realfullstack.com
+  target:
+    group: networking.k8s.io
+    kind: Ingress
+    name: authenticator-server-ingress
+    version: v1
+images:
+- name: frontend_main
+  newName: ghcr.io/realfullstack/frontend/main_dev
+  newTag: sha-e88f9f9
+- name: frontend_nginx
+  newName: ghcr.io/realfullstack/frontend/nginx
+  newTag: sha-e88f9f9
+resources:
+- ../../../kustomize/base
