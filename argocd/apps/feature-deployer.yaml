@@ -5,9 +5,9 @@ metadata:
   name: frontend-feature-deployer
 spec:
   destination:
-    namespace: trackingapp-feature
+    namespace: realfullstack-feature
     server: "https://kubernetes.default.svc"
-  project: trackingapp
+  project: realfullstack
   source:
     path: argocd-feature/
     repoURL: "https://github.com/realfullstack/frontend-infra.git"
