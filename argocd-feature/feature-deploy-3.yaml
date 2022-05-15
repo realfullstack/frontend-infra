@@ -4,6 +4,8 @@ kind: Application
 metadata:
   name: frontend-feature-deploy-3
   namespace: argocd
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
 spec:
   destination:
     namespace: realfullstack-feature
@@ -17,3 +19,4 @@ spec:
     automated:
       prune: true
       allowEmpty: true
+    preserveResourcesOnDeletion: false
