@@ -4,7 +4,7 @@ namespace: realfullstack-feature
 nameSuffix: -feature-deploy-1
 commonLabels:
   app-env: feature
-  app.kubernetes.io/instance: frontend-feature-deploy-1
+  # app.kubernetes.io/instance: frontend-feature-deploy-1
 configMapGenerator:
 - behavior: merge
   envs:
