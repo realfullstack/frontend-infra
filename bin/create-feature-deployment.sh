@@ -12,7 +12,7 @@ echo
 if [[ -z "$2" ]]; then
     echo "Usage: $0 branch-name image-id"
     echo """Example:
-    $0 feature/jira-1234-branch-name sha-148e9d9
+    $0 feature/deploy-1 sha-148e9d9
     """
     exit 1
 fi

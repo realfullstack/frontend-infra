@@ -8,7 +8,7 @@ echo
 if [[ -z "$1" ]]; then
     echo "Usage: $0 branch-name"
     echo """Example:
-    $0 feature/jira-1234-branch-name
+    $0 feature/deploy-1
     """
     exit 1
 fi
