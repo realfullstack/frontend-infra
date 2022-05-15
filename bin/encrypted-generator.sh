@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+set -e
+
 echo "Sealed secrets encryptedData kustomize patch generator"
 
 if [[ -z "$3" ]]; then
@@ -46,7 +48,7 @@ DESTINATION_FILE=$3
 echo "Generating patch using $ENV_FILE into $DESTINATION_FILE"
 
 
-SEALED_DATA=$(kubectl create secret generic authenticator \
+SEALED_DATA=$(kubectl create secret generic frontend \
   --dry-run=client \
   --from-env-file="$ENV_FILE" \
   -o yaml | kubeseal \

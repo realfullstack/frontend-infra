@@ -5,3 +5,4 @@ namePrefix: realfullstack-
 nameSuffix: -prod
 resources:
   - apps/prod.yaml
+  - apps/feature-deployer.yaml

@@ -34,7 +34,6 @@ vim .secrets/prod/secrets.env
   .secrets/prod/secrets.env\
   kustomize/overlays/prod/patches/sealed-secret.yaml
 
-
 # make sure that the sealedsecret is not altered (name+data should not be changed by kustomize)
 kustomize build kustomize/overlays/prod  |  k apply -f -
 

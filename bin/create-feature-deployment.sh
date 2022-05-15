@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+set -e
+
 TEMPLATE_APP_FILE="templates/argocd-feature/template.yaml"
 TEMPLATE_OVERLAY_DIRECTORY="templates/kustomize-feature"
 
@@ -71,19 +73,19 @@ echo "Target app file = $TARGET_APP_FILE"
 export FEATURE_BRANCH_CODE
 ./bin/sempl -f -v $TEMPLATE_APP_FILE $TARGET_APP_FILE
 
-# echo
-# echo "Rendering kustomize overlay"
+echo
+echo "Rendering kustomize overlay"
 
-# TARGET_OVERLAY_DIRECTORY="kustomize-feature/overlays/${FEATURE_BRANCH_CODE}"
-# echo "Template directory ${TEMPLATE_OVERLAY_DIRECTORY}"
-# echo "Target directory ${TARGET_OVERLAY_DIRECTORY}"
+TARGET_OVERLAY_DIRECTORY="kustomize-feature/overlays/${FEATURE_BRANCH_CODE}"
+echo "Template directory ${TEMPLATE_OVERLAY_DIRECTORY}"
+echo "Target directory ${TARGET_OVERLAY_DIRECTORY}"
 
-# echo "Recreating target directory"
-# rm -rf ${TARGET_OVERLAY_DIRECTORY}
-# cp -r ${TEMPLATE_OVERLAY_DIRECTORY} ${TARGET_OVERLAY_DIRECTORY}
+echo "Recreating target directory"
+rm -rf ${TARGET_OVERLAY_DIRECTORY}
+cp -r ${TEMPLATE_OVERLAY_DIRECTORY} ${TARGET_OVERLAY_DIRECTORY}
 
-# export BUILD_DATABASE_NAME="$FEATURE_BRANCH_CODE"
-# export BUILD_CELERY_VHOST="$FEATURE_BRANCH_CODE"
-# export IMAGE_ID
-# ./bin/sempl -f -v "${TARGET_OVERLAY_DIRECTORY}/kustomization.yaml"
-# ./bin/sempl -f -v "${TARGET_OVERLAY_DIRECTORY}/files/config.env"
+export BUILD_DATABASE_NAME="$FEATURE_BRANCH_CODE"
+export BUILD_CELERY_VHOST="$FEATURE_BRANCH_CODE"
+export IMAGE_ID
+./bin/sempl -f -v "${TARGET_OVERLAY_DIRECTORY}/kustomization.yaml"
+./bin/sempl -f -v "${TARGET_OVERLAY_DIRECTORY}/files/config.env"

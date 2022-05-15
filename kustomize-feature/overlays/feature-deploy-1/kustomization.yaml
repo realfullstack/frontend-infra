@@ -1,10 +1,10 @@
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 namespace: realfullstack-feature
-nameSuffix: -$FEATURE_BRANCH_CODE
+nameSuffix: -feature-deploy-1
 commonLabels:
   app-env: feature
-  # app.kubernetes.io/instance: frontend-$FEATURE_BRANCH_CODE
+  # app.kubernetes.io/instance: frontend-feature-deploy-1
 configMapGenerator:
 - behavior: merge
   envs:
@@ -21,13 +21,13 @@ patches:
     - op: replace
       path: /spec/tls/0/hosts
       value:
-        - $FEATURE_BRANCH_CODE.feature.realfullstack.com
+        - feature-deploy-1.feature.realfullstack.com
     - op: replace
       path: /spec/tls/0/secretName
-      value: frontend-nginx-tls-key-$FEATURE_BRANCH_CODE
+      value: frontend-nginx-tls-key-feature-deploy-1
     - op: replace
       path: /spec/rules/0/host
-      value: $FEATURE_BRANCH_CODE.feature.realfullstack.com
+      value: feature-deploy-1.feature.realfullstack.com
   target:
     group: networking.k8s.io
     kind: Ingress
