@@ -4,7 +4,6 @@ namespace: realfullstack-feature
 nameSuffix: -$FEATURE_BRANCH_CODE
 commonLabels:
   app-env: feature
-  app.kubernetes.io/instance: frontend-$FEATURE_BRANCH_CODE
 configMapGenerator:
 - behavior: merge
   envs:
